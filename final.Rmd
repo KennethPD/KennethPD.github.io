@@ -1,0 +1,190 @@
+---
+output:
+  html_document: default
+  pdf_document: default
+---
+
+Peter DeRasmo
+
+
+What is data science? Data science is the analysis of all kinds of data that you can use to get insight from. A data scientist must have the ability to take unstructured data, such as open text off of web pages, web blogs, photos, videos, excel spreadsheets, from anywhere, and find order, meaning and value in that data. This is important because the insight you can gain from analyzing the data can help you determine what is going on in peoples' minds and their behaviors, therefore providing a competitive advantage. With the advancing technological age and vastly digitalization of data, the need for data scientists is growing at a substantial rate.
+
+Who are data, scientists? As a data scientist, you will need three distinct skill sets: hacking skills, math and statistics skills, and substantive expertise. Hacking skills are all about a data scientists ability to gather and prepare data as, for once you get the data, it is often in unusual formats, things that do not fit well into the rows and columns format of a spreadsheet or database. It is called hacking because it is a creative endeavor where each project brings with it new challenges and you will need to be able to "hack" together a solution for the specific problem.
+
+Math and statistics, a fickle part of the required knowledge. You do not need to be some savant or leading expert in the field, but you do need to know what procedures to use to answer the questions you have and to diagnose these problems. It is important to have the creativity to develop and improve various procedures as you confront new data challenges. Substantive expertise, the understanding of the field your data is from as well as what aspects will constitute value. This is the ability to answer the following questions: what are the goals? What is used as the common tool (knowing the methods and the constraints of a particular domain)? It is all about knowing if certain things are possible and what are not, therefore allowing you to frame your analysis in the most useful way that can be easily implemented.
+
+So, how does a data scientist do all of that? As a data scientist, you will follow what is called the data science pipeline. This consists of three main flow points. The very first step is the planning stage. Define the goals, the what is it that you are trying to accomplish so that you can focus your efforts and you know when you are done. Organizing your resources so that you know what data you have available, the machines you can use, and the people you can contact for working with the data. Coordinating the efforts of your data science team. And lastly, but not any less important, is the scheduling of the project, for data science projects are generally collaborative and done for a client.
+
+The next part of the data science pipeline is data preparation. This is when you get the data from the source but remember that there will be a lot of creativity involved in this step, as data can come from many different sources. Clean the data. That is making sure the data fits well into whatever program it is you are using (R studio for our case). Additionally, you will be checking it for errors, anomalies, and making sure that the data you are working with is valid and reliable. You will also explore the data, seeing what the distributions are like, and what the associations look like. Lastly, you refine the data by choosing the cases you are going to include, the variable that you are going to use, and create new features that you want. All of these steps will give you the actual content that you are going to work with.
+
+Finally, in the last part of the data science pipeline, you have the modeling/ analysis of the data. That is to say the creation of the model or more preferably, several models, that you will validate. Essentially, you will be checking the accuracy of the model and if it can be generalizable. Next, evaluate the model. You try to see how accurate it is and how much it actually tells you about the question you are trying to answer. After all that, you will refine the model. Based on the previous evaluations you may want to make some tweaks to the model, making it as easy as possible to implement and informative as it can be.
+
+It is important to know that even though data science does require some programming knowledge, predominantly using the R language, in the heart of data science you require knowledge of statistics. However, the way in which statistics are used in data science is different then what statisticians would do. As a data scientist, you will use statistics to build upon the identity of machine learning and the dissection of big data, while statisticians rarely use such techniques. This is because, even though both fields use data, they have different motivations and different goals. They operate within a different context and have different backgrounds. So, don't confuse a data scientist to be a statistician as they are distinct, separate fields.
+
+The fundamental aspects of data science would not be complete if we did not talk about ethics. Data science is a creative field and often uses data in ways that it was not really intended for. This results in some big issues. The first being privacy. With confidentiality being a major concern, as you could be dealing with information that shouldn't be shared even if it's not anonymous. You need to be aware of the potential risks involved in dealing with some data. This is important because data science often relies on data sources that were not designed for sharing.
+
+The second thing is anonymity. Even though there are regulations in place to make it much harder to identify unique individuals within data, it does not necessarily mean it is impossible. When using publicly available data, it may be much closer to anonymous. But, when working with proprietary data, where you are working for a client and they are giving you their own data, there may still be identifiers within the data, which would no longer make the data anonymous. 
+Lastly, you have copyright laws. It is common practice to scrape data from websites, pulling images or text held within. However, you need to know that some of the information can be copyrighted and such actions will violate the copyright laws. This could get you into some very hot water if you did not have permission from the copyright holder.
+
+After obtaining your data it will be beneficial to create some graphs. Why graphs? Well, graphs communicate more information in a fast way because they are visual and information dense, which is much easier for us humans. They are the quickest way to check for the shape of distribution, gaps, outliers, anomalies, and potentially unexpected relationships. An easy framework to follow in which would give you various amounts of information to dissect would be to form graphs such that they accomplish one of the following points:
+.    Single distributions or univariate, one variable at a time
+.    Joint distributions, the associations between variables
+.    Unusual cases or exceptional values
+.    Errors in the data
+.    Missing data
+
+There are four main graphs you would want to use: bar charts, box plots, histograms, and scatter plots. A bar chart is great for categories or categorical variables (data such as team names or the sex of an individual). Make sure to organize the graph to be in descending order for that makes it easier to read. A box plot is perfect for quantitative variables, a measured value (data such as age or length). This graph shows the quartile values, min, max, and median. A histogram is also great for quantitative variables, as it shows that shape of distribution. Lastly, the scatter plot is great for showing the association between quantitative variables. So, as you are looking at these graphs try to ask yourself: do you have what you need to answer your question (from the planning stage)? Are there clumps or gaps in the data? Are there exceptional cases? Are there errors in the data?
+
+
+Let's get started with analyzing some data in a bar graph by braking down exactly what is happening.
+```{r LoadAndBar}
+library(tidyverse)
+
+sn <- read_csv("social_network.csv")
+sn
+
+count(sn, Site) %>%  # Counts the number of times a site of the same value showes up
+    ggplot(mapping=aes(x=reorder(Site, -n), y=n)) + # plots the data in a bar graph after ordering the values in decending order
+    geom_bar(stat="identity")
+
+```
+
+
+So, after loading in the data from, sn <- read_csv("social_network.csv"), we are going to count how many times the value of Site appears in the data set sn, by using count(sn, Site). This gives us a data set that consist of the sites and how many times that show up in the data. Now to continue working with this simplified data set we use %>%, which means we are going to use the result of what is to the left of this symbol and apply it to what is on the right. This is called a pipeline. Next, to plot the data in a bar graph you have, ggplot(mapping=aes(x=reorder(Site, -n), y=n)) + geom_bar(stat="identity"), don't worry about all of it, for now just focus on what the x and y equal, as they are your data axis of your bar graph. The reorder() in the x value is stating, to order the Site data in descending order based on the value of n, where n is the count and the "-" is defining it to be in descending order. Remember that Site is a categorical variable. 
+
+
+
+When looking at the quantitative variables, we are going to use a histogram. Here is a histogram based on the Age quantitative variable. 
+```{r Histogram}
+# Generating a histogram plot based on the Age column
+sn %>%
+  ggplot(mapping=aes(x=Age)) +
+    geom_histogram()
+
+```
+
+
+
+Next, we have the box plot, which is perfect for visualizing the distribution of a quantitative variable based on a categorical attribute. The x value is the categorical and the y is the numerical values
+
+```{r Box}
+
+# Generating a box plot
+sn %>%
+  ggplot(mapping=aes(x=Site, y=Age)) +
+    geom_boxplot()
+
+```
+
+
+Let's take a look at this box plot with a different variation based on our data. We are going to develop two different box plots, one from data with males only and the other from data with only females. This is done by filtering the data based on the given condition.
+
+```{r BoxMale}
+# Generating a box plot of only data from males
+sn %>%
+  filter(Gender == "male") %>%
+  ggplot(mapping=aes(x=Site, y=Age)) +
+    geom_boxplot()
+
+```
+
+```{r BoxFemale}
+# Generating a box plot of only data from females
+sn %>%
+  filter(Gender == "female") %>%
+  ggplot(mapping=aes(x=Site, y=Age)) +
+    geom_boxplot()
+
+```
+
+
+
+
+
+
+
+
+
+```{r exploratoryDataAnalysis}
+# Getting a new data set
+google <- read_csv("google_correlate.csv")
+google
+
+
+# Generating a box plot
+google %>%
+  group_by(region) %>%
+  ggplot(mapping=aes(x=region, y=data_viz)) +
+    geom_boxplot()
+
+```
+
+
+```{r exploratoryDataAnalysis2}
+# A Point graph to show us the trend of the relationship between the degree and data_viz
+# This is showing us that the more people with college degerees show greater intrest in data visualization as a search topic
+# The geom_smooth(method=lm) is adding a linear regression model to help show the relationship of the data and its trend
+google %>%
+  ggplot(aes(x=degree, y=data_viz)) +
+    geom_point() +
+    geom_smooth(method=lm) 
+
+```
+
+
+Since we have several quantitative variables, and we want to look at the associations between each of them. One option is to create a scatterplot matrix, which has several scatterplots arranged in rows and columns. So, now taking several quantitative variables, data_viz, degree, Facebook, and NBA, and putting them into the scatterplot matrix with data_viz as the outcome variable.
+
+
+```{r exploratoryDataAnalysis3}
+
+pairs(~data_viz + degree + facebook + nba,
+      data = google, 
+      main = "Simple Scatterplot Matrix")
+
+```
+
+
+Furthermore, there are other aspects of the data to look at. For example, the correlation between the data values. A correlation value goes from negative one to one, where positive or negative one is perfect linear association, zero is no linear association. Positive values is an uphill relationship and negative is a downhill relationship. 
+
+
+
+```{r exploratoryDataAnalysis4}
+# Selecting the quantitave values
+google %>%
+  select(data_viz, degree, facebook, nba) %>%
+  cor()
+
+```
+
+Some really strong correlations are the association between data_viz and degree, as well as the association between data_viz and Facebook which means there is more interest in searching for Facebook the less interest there is in searching for data visualization.
+
+
+
+This is how common that term is as a Google search term relative to other searches on a state by state basis. Degree, the percentage of people in the state with a degree. Facebook as a search term. NBA as a search term. Stats_ed, a yes/no variable describing whether they have a curriculum for statistics education in the K through 12 system or not. Region, a categorical variable. 
+
+```{r exploratoryDataAnalysis5}
+# Predicting interest in data visualization
+# Specifiying that data_viz is the outcome variable
+reg1 <- lm(data_viz ~ 
+           degree + stats_ed + facebook + nba + has_nba + region,
+           data = google)
+summary(reg1)
+
+```
+Residuals are a way of assessing how well the model fits the data. However, what we are really looking for is the coefficients. In the column that says Estimate are the actual regression coefficients. Then we have the standard error for them, and then the t value as the inferential test. The probability value on the end is the significance test. The asterisks signify statistically significant probabilities. Ignoring the intercept, the first one is degree. This shows us that states that have a higher proportion of people with college degrees also show a higher interest in searching for data visualization. The other is Facebook, which is negative. Meaning that states that show a higher interest in searching for Facebook show a lower interest in searching for data visualization. 
+
+
+
+
+Let us take a look at hypothesis testing. In the 2012 Major League Baseball season, the Washington Nationals had the best record at the end of the regular season: 98 wins out of 162 games (.605). Is this significantly greater than 50% (our hypothesis)?
+```{r hypoth}
+# PROP TEST
+# 98 wins out of 162 games (default settings)
+prop.test(98, 162)
+```
+
+Using the proportion test we have 98 successes out of 162 trials. The null probability of 0.5 is just assuming that we are looking at a coin flip, either success or failure. Given that the P value is 0.009 and a standard cutoff of 0.05, or a 5% of a false positive, we have a less than 1% chance of having a false positive and can then reject the null hypothesis. Concluding that the Washington Nationals had a significantly better than 50% season. The alternative hypothesis in this case is that the true P or proportion is not equal to 0.5. With a 95% confidence interval that has a range of a low 52% and a high of about 68%, and that the observed estimate, the actual sample value, is 0.604. So, that tells us that they actually did better than 50%. 
+
+In conclusion, data science is a vastly growing field that needs to be populated as more and more data becomes available to be analyzed. With the skills of hacking, computer programming, and coding skills that grant the ability to retrieve and manipulate data. Math and statistics knowledge to make sense of that data and substantive expertise to have a familiarity with working in any particular applied domain. With careful planning to define the goals, preparation of data using creativity to gather the data and refine it, and analysis the data to create a model for representing the data. Remembering the importance of ethics when handling information as it can lead to disastrous results if not adhered to. Using various graphs, bar, box plot, histogram, and scatter plot, to help analysis the data to provide a model that is easy to implement while also be very informative.
+
+
